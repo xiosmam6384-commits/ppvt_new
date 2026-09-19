@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>그림어휘력 검사 | 취학전 아동</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">PRESCHOOL VOCABULARY ASSESSMENT</p>
+        <h1>그림어휘력 검사</h1>
+        <p class="subtitle">그림을 보고 알맞은 낱말을 골라보세요.</p>
+      </div>
+      <div class="header-badge" aria-label="검사 문항 수">20 문항 · 4 범주</div>
+    </header>
+
+    <section id="setupScreen" class="setup-card" aria-labelledby="setupTitle">
+      <div class="setup-intro">
+        <span class="step-chip">시작 전</span>
+        <h2 id="setupTitle">검사 정보를 입력하세요</h2>
+        <p>아동 식별 정보는 CSV 결과에 함께 저장됩니다.</p>
+      </div>
+      <form id="setupForm" class="setup-form">
+        <label>아동 ID <input id="childId" name="childId" maxlength="40" placeholder="예: A-001" required /></label>
+        <label>검사자 <input id="examiner" name="examiner" maxlength="40" placeholder="예: 김교사" /></label>
+        <button class="primary-button" type="submit">검사 시작</button>
+      </form>
+      <div class="category-list" aria-label="검사 범주">
+        <span>음식</span><span>동물</span><span>생활용품</span><span>동작</span>
+      </div>
+    </section>
+
+    <section id="testScreen" class="test-layout" hidden>
+      <section class="question-card" aria-live="polite">
+        <div class="question-topline">
+          <span id="categoryPill" class="category-pill"></span>
+          <span id="progressText" class="progress-text"></span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-fill"></div></div>
+        <h2>그림의 이름을 골라보세요.</h2>
+        <div id="pictureBox" class="picture-box">
+          <img id="pictureImage" alt="문항 그림" />
+          <div id="pictureFallback" class="picture-fallback" hidden>
+            <strong>그림을 불러올 수 없습니다</strong>
+            <span>아래 파일명을 확인해 주세요.</span>
+          </div>
+        </div>
+        <p id="fileName" class="file-name"></p>
+        <div id="options" class="options" role="group" aria-label="답 선택"></div>
+        <p id="feedback" class="feedback" aria-live="assertive"></p>
+        <button id="nextButton" class="next-button" type="button" hidden>다음 문항</button>
+      </section>
+
+      <aside class="live-dashboard" aria-labelledby="dashboardTitle">
+        <div class="dashboard-heading">
+          <p class="eyebrow">LIVE DASHBOARD</p>
+          <h2 id="dashboardTitle">검사 현황</h2>
+        </div>
+        <div class="score-grid">
+          <div class="metric"><span>현재 점수</span><strong id="liveScore">0 / 20</strong></div>
+          <div class="metric"><span>평균 반응 시간</span><strong id="liveTime">-</strong></div>
+        </div>
+        <div id="categoryScores" class="category-scores"></div>
+        <div class="record-note"><span class="note-dot"></span>각 문항의 선택 시간과 정오답을 자동 기록합니다.</div>
+      </aside>
+    </section>
+
+    <section id="resultScreen" class="results" hidden aria-labelledby="resultsTitle">
+      <div class="result-hero">
+        <p class="eyebrow">ASSESSMENT COMPLETE</p>
+        <h2 id="resultsTitle">검사 결과</h2>
+        <p id="resultMeta" class="result-meta"></p>
+      </div>
+      <div class="result-metrics">
+        <div class="result-metric main-score"><span>총점</span><strong id="finalScore"></strong><small>정답 수 / 20</small></div>
+        <div class="result-metric"><span>전체 평균 반응 시간</span><strong id="finalAverageTime"></strong><small>선택 완료 문항 기준</small></div>
+        <div class="result-metric"><span>총 소요 시간</span><strong id="totalTime"></strong><small>검사 시작부터 종료까지</small></div>
+      </div>
+      <section class="category-result-card" aria-labelledby="categoryResultTitle">
+        <h3 id="categoryResultTitle">범주별 점수</h3>
+        <div id="finalCategoryScores" class="final-category-scores"></div>
+      </section>
+      <section class="response-record-card" aria-labelledby="recordTitle">
+        <div class="card-title-row"><div><h3 id="recordTitle">문항별 반응 기록</h3><p>반응 시간은 문항이 제시된 뒤 선택할 때까지의 시간입니다.</p></div><button id="csvButton" class="primary-button" type="button">CSV로 내보내기</button></div>
+        <div class="table-wrap"><table><thead><tr><th>문항</th><th>범주</th><th>정답</th><th>선택</th><th>결과</th><th>반응 시간</th><th>그림 파일</th></tr></thead><tbody id="recordBody"></tbody></table></div>
+      </section>
+      <button id="restartButton" class="restart-button" type="button">새 검사 시작</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
